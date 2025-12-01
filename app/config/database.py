@@ -1,21 +1,27 @@
 import cx_Oracle
 import oracledb
+import os
+from dotenv import load_dotenv
+load_dotenv()
+import platform
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
+if platform.system() == "Windows":
+    oracledb.init_oracle_client(lib_dir=os.getenv('LIB_DIR'))
 
 # FORMATO:
 # oracle+cx_oracle://usuario:password@host:puerto/servicio
 
-ORACLE_USER = "EMPRESA04"
-ORACLE_PASS = "EMPRESA04"
-ORACLE_HOST = "10.10.1.67"
-ORACLE_PORT = "1521"
-ORACLE_SERVICE = "dina2"  # O el nombre que uses (ej: ORCL, DINA2, PROD)
+ORACLE_USER = os.getenv('USER')
+ORACLE_PASS = os.getenv('PASSWORD')
+ORACLE_HOST = os.getenv('IPE')
+ORACLE_PORT = os.getenv('PUERTO')
+ORACLE_SERVICE = os.getenv('SERVICIO')  # O el nombre que uses (ej: ORCL, DINA2, PROD)
 
 DATABASE_URL = (
-    f"oracle+oracledb://{ORACLE_USER}:{ORACLE_PASS}@10.10.1.67:1521/?service_name=dina2"
+    f"oracle+oracledb://{ORACLE_USER}:{ORACLE_PASS}@{ORACLE_HOST}:{ORACLE_PORT}/?service_name={ORACLE_SERVICE}"
 )
 
 engine = create_engine(
