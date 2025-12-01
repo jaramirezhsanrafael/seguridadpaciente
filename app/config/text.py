@@ -14,5 +14,6 @@ conn = oracledb.connect(
     dsn=os.getenv('DSN')
 )
 with conn.cursor() as cur:
-    cur.execute("SELECT * FROM EMPRESA04.adningreso WHERE AINCONSEC IN (460527,460526,460525,460524)")
+    request =cur.execute("SELECT * FROM EMPRESA04.adningreso WHERE AINCONSEC IN (460527,460526,460525,460524)")
+    print(type(request.fetchall()))
     print(cur.fetchall())
